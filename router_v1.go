@@ -7,7 +7,7 @@ import (
 func v1Router() *chi.Mux {
 	router := chi.NewRouter()
 
-	router.Get("/ping", handlerPing)
+	router.Get("/ping", pingHandler)
 	router.Mount("/users", userRoutes())
 	router.Mount("/feeds", feedRoutes())
 	router.Mount("/feed-follows", feedFollowRoutes())
