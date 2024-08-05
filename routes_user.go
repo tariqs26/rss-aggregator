@@ -10,9 +10,7 @@ import (
 	"github.com/tariqs26/rss-aggregator/internal/util"
 )
 
-type UserResource struct{}
-
-func (UserResource) Routes() chi.Router {
+func userRoutes() chi.Router {
 	router := chi.NewRouter()
 
 	router.Post("/", createUser)

@@ -7,12 +7,10 @@ import (
 func v1Router() *chi.Mux {
 	router := chi.NewRouter()
 
-	router.Get("/healthz", handleReady)
-	router.Get("/err", handleError)
-
-	router.Mount("/users", UserResource{}.Routes())
-	router.Mount("/feeds", FeedResource{}.Routes())
-	router.Mount("/feed-follows", FeedFollowResource{}.Routes())
+	router.Get("/ping", handlerPing)
+	router.Mount("/users", userRoutes())
+	router.Mount("/feeds", feedRoutes())
+	router.Mount("/feed-follows", feedFollowRoutes())
 
 	return router
 }

@@ -9,9 +9,7 @@ import (
 	"github.com/tariqs26/rss-aggregator/internal/util"
 )
 
-type FeedFollowResource struct{}
-
-func (FeedFollowResource) Routes() chi.Router {
+func feedFollowRoutes() chi.Router {
 	router := chi.NewRouter()
 
 	router.Get("/feed-follows", middlewareAuth(getFeedFollows))
