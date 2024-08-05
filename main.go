@@ -16,11 +16,7 @@ import (
 	"github.com/tariqs26/rss-aggregator/internal/scraper"
 )
 
-type ApiConfig struct {
-	DB *database.Queries
-}
-
-var apiConfig ApiConfig
+var DB *database.Queries
 
 func main() {
 	godotenv.Load(".env")
@@ -43,9 +39,9 @@ func main() {
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	apiConfig.DB = database.New(db)
+	DB = database.New(db)
 
-	go scraper.StartScraping(apiConfig.DB, 10, time.Minute)
+	go scraper.StartScraping(DB, 10, time.Minute)
 
 	router := chi.NewRouter()
 

@@ -37,7 +37,7 @@ func handleCreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := apiConfig.DB.CreateUser(r.Context(), params.Name)
+	user, err := DB.CreateUser(r.Context(), params.Name)
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusInternalServerError,
@@ -65,7 +65,7 @@ func handleDeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = apiConfig.DB.DeleteUser(r.Context(), id)
+	err = DB.DeleteUser(r.Context(), id)
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusInternalServerError,
@@ -78,7 +78,7 @@ func handleDeleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetUserPosts(w http.ResponseWriter, r *http.Request, user database.User) {
-	posts, err := apiConfig.DB.GetUserPosts(r.Context(), database.GetUserPostsParams{
+	posts, err := DB.GetUserPosts(r.Context(), database.GetUserPostsParams{
 		UserID: user.ID,
 		Limit:  10,
 	})

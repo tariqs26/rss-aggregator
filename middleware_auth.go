@@ -22,7 +22,7 @@ func middlewareAuth(handler AuthHandler) http.HandlerFunc {
 			return
 		}
 
-		user, err := apiConfig.DB.GetUserByApiKey(r.Context(), apiKey)
+		user, err := DB.GetUserByApiKey(r.Context(), apiKey)
 
 		if err != nil {
 			util.RespondWithError(w, http.StatusInternalServerError,

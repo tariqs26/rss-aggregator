@@ -35,7 +35,7 @@ func handleCreateFeed(w http.ResponseWriter, r *http.Request, user database.User
 		return
 	}
 
-	feed, err := apiConfig.DB.CreateFeed(r.Context(), database.CreateFeedParams{
+	feed, err := DB.CreateFeed(r.Context(), database.CreateFeedParams{
 		Url:    params.Url,
 		Name:   params.Name,
 		UserID: user.ID,
@@ -52,7 +52,7 @@ func handleCreateFeed(w http.ResponseWriter, r *http.Request, user database.User
 }
 
 func handleGetFeeds(w http.ResponseWriter, r *http.Request, user database.User) {
-	feeds, err := apiConfig.DB.GetFeeds(r.Context(), user.ID)
+	feeds, err := DB.GetFeeds(r.Context(), user.ID)
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusInternalServerError,
@@ -72,7 +72,7 @@ func handleDeleteFeed(w http.ResponseWriter, r *http.Request, user database.User
 		return
 	}
 
-	err = apiConfig.DB.DeleteFeed(r.Context(),
+	err = DB.DeleteFeed(r.Context(),
 		database.DeleteFeedParams{
 			ID:     id,
 			UserID: user.ID,

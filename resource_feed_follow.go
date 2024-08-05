@@ -31,7 +31,7 @@ func handleCreateFeedFollow(w http.ResponseWriter, r *http.Request, user databas
 		return
 	}
 
-	feed, err := apiConfig.DB.CreateFeedFollow(r.Context(), database.CreateFeedFollowParams{
+	feed, err := DB.CreateFeedFollow(r.Context(), database.CreateFeedFollowParams{
 		FeedID: int32(feedId),
 		UserID: user.ID,
 	})
@@ -47,7 +47,7 @@ func handleCreateFeedFollow(w http.ResponseWriter, r *http.Request, user databas
 }
 
 func handleGetFeedFollows(w http.ResponseWriter, r *http.Request, user database.User) {
-	feedFollows, err := apiConfig.DB.GetFeedFollows(r.Context(), user.ID)
+	feedFollows, err := DB.GetFeedFollows(r.Context(), user.ID)
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusInternalServerError,
@@ -67,7 +67,7 @@ func handleDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user databas
 		return
 	}
 
-	err = apiConfig.DB.DeleteFeedFollow(r.Context(), database.DeleteFeedFollowParams{
+	err = DB.DeleteFeedFollow(r.Context(), database.DeleteFeedFollowParams{
 		ID:     id,
 		UserID: user.ID,
 	})
