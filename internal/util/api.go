@@ -5,8 +5,8 @@ import (
 	"strconv"
 )
 
-func GetIntId(idParam string) (int32, error) {
-	id, err := strconv.Atoi(idParam)
+func GetIntId(paramId string) (int32, error) {
+	id, err := strconv.Atoi(paramId)
 
 	if err != nil {
 		return 0, fmt.Errorf("error parsing ID: %v", err)
