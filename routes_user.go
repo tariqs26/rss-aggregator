@@ -22,11 +22,11 @@ func userRoutes() chi.Router {
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
-	type Params struct {
+	type Body struct {
 		Name string `json:"name"`
 	}
 
-	params, err := util.ValidateJSONBody(r, Params{})
+	params, err := util.ValidateJSONBody(r, Body{})
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusBadRequest,

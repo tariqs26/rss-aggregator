@@ -22,12 +22,12 @@ func feedRoutes() chi.Router {
 }
 
 func createFeed(w http.ResponseWriter, r *http.Request, user database.User) {
-	type Params struct {
+	type Body struct {
 		Name string `json:"name"`
 		Url  string `json:"url"`
 	}
 
-	params, err := util.ValidateJSONBody(r, Params{})
+	params, err := util.ValidateJSONBody(r, Body{})
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusBadRequest, err.Error())
