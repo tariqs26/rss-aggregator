@@ -6,9 +6,6 @@ import (
 	"strings"
 )
 
-// GetApiKey extracts the API key from the headers
-// Example:
-// Authorization: apiKey {api_key}
 func GetApiKey(headers http.Header) (string, error) {
 	authorization := headers.Get("Authorization")
 
