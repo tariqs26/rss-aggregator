@@ -1,20 +1,14 @@
 # RSS Aggregator
 
-A simple RSS feed aggregator that allows clients to:
+A simple RSS feed aggregator that allows users to:
 
 - Add RSS feeds to be collected.
-- Follow and un-follow RSS feeds that other users have added.
-- Fetch all of the latest posts from the RSS feeds they follow.
-
-RSS feeds are a way for websites to publish updates to their content. You can use this project to keep up with your favorite blogs, news sites, podcasts, and more.
-
-## Features
-
-- **Add RSS Feeds:** Users can add RSS feeds to the system.
-- **Follow/Unfollow Feeds:** Users can follow and un-follow feeds added by others.
-- **Fetch Latest Posts:** Users can fetch the latest posts from the feeds they follow.
+- Follow and un-follow RSS feeds that they have added.
+- Fetch the latest posts from the RSS feeds they follow.
 
 ## API Routes
+
+In progress...
 
 ## Setup and Installation
 
