@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/google/uuid"
 	"github.com/tariqs26/rss-aggregator/internal/database"
 	"github.com/tariqs26/rss-aggregator/internal/util"
 )
@@ -14,8 +13,8 @@ func userRoutes() chi.Router {
 	router := chi.NewRouter()
 
 	router.Post("/", createUser)
-	router.Get("/", middlewareAuth(getUserByApiKey))
-	router.Delete("/{id}", deleteUser)
+	router.Get("/", middlewareAuth(getUser))
+	router.Delete("/{id}", middlewareAuth((deleteUser)))
 	router.Get("/posts", middlewareAuth(getUserPosts))
 
 	return router
@@ -47,23 +46,12 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	util.RespondWithJSON(w, http.StatusCreated, user)
 }
 
-func getUserByApiKey(w http.ResponseWriter, r *http.Request, user database.User) {
+func getUser(w http.ResponseWriter, r *http.Request, user database.User) {
 	util.RespondWithJSON(w, http.StatusOK, user)
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
-	idParam := chi.URLParam(r, "id")
-
-	id, err := uuid.Parse(idParam)
-
-	if err != nil {
-		util.RespondWithError(w, http.StatusBadRequest,
-			fmt.Sprintf("Error parsing UUID: %v", err),
-		)
-		return
-	}
-
-	err = DB.DeleteUser(r.Context(), id)
+func deleteUser(w http.ResponseWriter, r *http.Request, user database.User) {
+	err := DB.DeleteUser(r.Context(), user.ID)
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusInternalServerError,
@@ -83,7 +71,7 @@ func getUserPosts(w http.ResponseWriter, r *http.Request, user database.User) {
 
 	if err != nil {
 		util.RespondWithError(w, http.StatusInternalServerError,
-			fmt.Sprintf("Error getting user posts: %v", err),
+			fmt.Sprintf("Error getting posts: %v", err),
 		)
 		return
 	}
