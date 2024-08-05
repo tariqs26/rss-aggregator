@@ -6,7 +6,6 @@ import (
 )
 
 func GetIntId(idParam string) (int32, error) {
-
 	id, err := strconv.Atoi(idParam)
 
 	if err != nil {

@@ -12,7 +12,6 @@ import (
 )
 
 func StartScraping(db *database.Queries, concurrency int, timeBetweenRequest time.Duration) {
-
 	log.Printf("Scarping on %v goroutines every %s duration", concurrency, timeBetweenRequest)
 	ticker := time.NewTicker(timeBetweenRequest)
 
@@ -33,6 +32,7 @@ func StartScraping(db *database.Queries, concurrency int, timeBetweenRequest tim
 			wg.Add(1)
 			go scrapeFeed(db, &wg, feed)
 		}
+		
 		wg.Wait()
 	}
 
@@ -82,5 +82,6 @@ func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 			log.Println("Error creating post:", err)
 		}
 	}
+
 	log.Printf("Feed %s collected, %v posts found", feed.Name, len(rssFeed.Channel.Item))
 }
