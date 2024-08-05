@@ -15,15 +15,15 @@ type UserResource struct{}
 func (UserResource) Routes() chi.Router {
 	router := chi.NewRouter()
 
-	router.Post("/", handleCreateUser)
-	router.Get("/", middlewareAuth(handleGetUserByApiKey))
-	router.Delete("/{id}", handleDeleteUser)
-	router.Get("/posts", middlewareAuth(handleGetUserPosts))
+	router.Post("/", createUser)
+	router.Get("/", middlewareAuth(getUserByApiKey))
+	router.Delete("/{id}", deleteUser)
+	router.Get("/posts", middlewareAuth(getUserPosts))
 
 	return router
 }
 
-func handleCreateUser(w http.ResponseWriter, r *http.Request) {
+func createUser(w http.ResponseWriter, r *http.Request) {
 	type Params struct {
 		Name string `json:"name"`
 	}
@@ -49,11 +49,11 @@ func handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	util.RespondWithJSON(w, http.StatusCreated, user)
 }
 
-func handleGetUserByApiKey(w http.ResponseWriter, r *http.Request, user database.User) {
+func getUserByApiKey(w http.ResponseWriter, r *http.Request, user database.User) {
 	util.RespondWithJSON(w, http.StatusOK, user)
 }
 
-func handleDeleteUser(w http.ResponseWriter, r *http.Request) {
+func deleteUser(w http.ResponseWriter, r *http.Request) {
 	idParam := chi.URLParam(r, "id")
 
 	id, err := uuid.Parse(idParam)
@@ -77,7 +77,7 @@ func handleDeleteUser(w http.ResponseWriter, r *http.Request) {
 	util.RespondWithJSON(w, http.StatusOK, "User deleted successfully")
 }
 
-func handleGetUserPosts(w http.ResponseWriter, r *http.Request, user database.User) {
+func getUserPosts(w http.ResponseWriter, r *http.Request, user database.User) {
 	posts, err := DB.GetUserPosts(r.Context(), database.GetUserPostsParams{
 		UserID: user.ID,
 		Limit:  10,

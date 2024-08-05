@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/tariqs26/rss-aggregator/internal/database"
@@ -14,15 +15,15 @@ type FeedResource struct{}
 func (FeedResource) Routes() chi.Router {
 	router := chi.NewRouter()
 
-	router.Post("/", middlewareAuth(handleCreateFeed))
-	router.Get("/", middlewareAuth(handleGetFeeds))
-	router.Delete("/{id}", middlewareAuth(handleDeleteFeed))
-	router.Post("/{id}/follow", middlewareAuth(handleCreateFeedFollow))
+	router.Post("/", middlewareAuth(createFeed))
+	router.Get("/", middlewareAuth(getFeeds))
+	router.Delete("/{id}", middlewareAuth(deleteFeed))
+	router.Post("/{id}/follow", middlewareAuth(createFeedFollow))
 
 	return router
 }
 
-func handleCreateFeed(w http.ResponseWriter, r *http.Request, user database.User) {
+func createFeed(w http.ResponseWriter, r *http.Request, user database.User) {
 	type Params struct {
 		Name string `json:"name"`
 		Url  string `json:"url"`
@@ -51,7 +52,7 @@ func handleCreateFeed(w http.ResponseWriter, r *http.Request, user database.User
 	util.RespondWithJSON(w, http.StatusCreated, feed)
 }
 
-func handleGetFeeds(w http.ResponseWriter, r *http.Request, user database.User) {
+func getFeeds(w http.ResponseWriter, r *http.Request, user database.User) {
 	feeds, err := DB.GetFeeds(r.Context(), user.ID)
 
 	if err != nil {
@@ -64,7 +65,7 @@ func handleGetFeeds(w http.ResponseWriter, r *http.Request, user database.User) 
 	util.RespondWithJSON(w, http.StatusOK, feeds)
 }
 
-func handleDeleteFeed(w http.ResponseWriter, r *http.Request, user database.User) {
+func deleteFeed(w http.ResponseWriter, r *http.Request, user database.User) {
 	id, err := util.GetIntId(chi.URLParam(r, "id"))
 
 	if err != nil {
@@ -86,4 +87,29 @@ func handleDeleteFeed(w http.ResponseWriter, r *http.Request, user database.User
 	}
 
 	util.RespondWithJSON(w, http.StatusOK, "Feed deleted successfully")
+}
+
+func createFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
+	feedIdParam := chi.URLParam(r, "id")
+
+	feedId, err := strconv.Atoi(feedIdParam)
+
+	if err != nil {
+		util.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Invalid feed ID: %v", feedIdParam))
+		return
+	}
+
+	feed, err := DB.CreateFeedFollow(r.Context(), database.CreateFeedFollowParams{
+		FeedID: int32(feedId),
+		UserID: user.ID,
+	})
+
+	if err != nil {
+		util.RespondWithError(w, http.StatusInternalServerError,
+			fmt.Sprintf("Error creating feed: %v", err),
+		)
+		return
+	}
+
+	util.RespondWithJSON(w, http.StatusCreated, feed)
 }
