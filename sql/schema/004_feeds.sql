@@ -1,0 +1,11 @@
+-- +goose Up
+CREATE TABLE feeds (
+    id SERIAL PRIMARY KEY,
+    url TEXT UNIQUE NOT NULL,
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- +goose Down
+DROP TABLE feeds;
