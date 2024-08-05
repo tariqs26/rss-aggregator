@@ -10,9 +10,9 @@ func v1Router() *chi.Mux {
 	router.Get("/healthz", handleReady)
 	router.Get("/err", handleError)
 
-	router.Mount("/users", userResource{}.Routes())
-	router.Mount("/feeds", feedResource{}.Routes())
-	router.Mount("/feed-follows", feedFollowResource{}.Routes())
+	router.Mount("/users", UserResource{}.Routes())
+	router.Mount("/feeds", FeedResource{}.Routes())
+	router.Mount("/feed-follows", FeedFollowResource{}.Routes())
 
 	return router
 }
