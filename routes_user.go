@@ -13,9 +13,9 @@ func userRoutes() chi.Router {
 	router := chi.NewRouter()
 
 	router.Post("/", createUser)
-	router.Get("/", middlewareAuth(getUser))
-	router.Delete("/{id}", middlewareAuth((deleteUser)))
-	router.Get("/posts", middlewareAuth(getUserPosts))
+	router.Get("/", authMiddleware(getUser))
+	router.Delete("/{id}", authMiddleware((deleteUser)))
+	router.Get("/posts", authMiddleware(getUserPosts))
 
 	return router
 }

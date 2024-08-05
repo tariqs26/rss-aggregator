@@ -13,10 +13,10 @@ import (
 func feedRoutes() chi.Router {
 	router := chi.NewRouter()
 
-	router.Post("/", middlewareAuth(createFeed))
-	router.Get("/", middlewareAuth(getFeeds))
-	router.Delete("/{id}", middlewareAuth(deleteFeed))
-	router.Post("/{id}/follow", middlewareAuth(createFeedFollow))
+	router.Post("/", authMiddleware(createFeed))
+	router.Get("/", authMiddleware(getFeeds))
+	router.Delete("/{id}", authMiddleware(deleteFeed))
+	router.Post("/{id}/follow", authMiddleware(createFeedFollow))
 
 	return router
 }
