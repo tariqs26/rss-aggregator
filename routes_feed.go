@@ -10,7 +10,7 @@ import (
 	"github.com/tariqs26/rss-aggregator/internal/util"
 )
 
-func feedRoutes() chi.Router {
+func feedRoutes() *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Post("/", authMiddleware(createFeed))

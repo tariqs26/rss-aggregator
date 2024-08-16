@@ -9,7 +9,7 @@ import (
 	"github.com/tariqs26/rss-aggregator/internal/util"
 )
 
-func feedFollowRoutes() chi.Router {
+func feedFollowRoutes() *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Get("/feed-follows", authMiddleware(getFeedFollows))

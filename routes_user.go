@@ -9,7 +9,7 @@ import (
 	"github.com/tariqs26/rss-aggregator/internal/util"
 )
 
-func userRoutes() chi.Router {
+func userRoutes() *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Post("/", createUser)
