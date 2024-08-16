@@ -12,7 +12,8 @@ import (
 )
 
 func StartScraping(db *database.Queries, concurrency int, timeBetweenRequest time.Duration) {
-	log.Printf("Scarping on %v goroutines every %s duration", concurrency, timeBetweenRequest)
+	log.Printf("Scraping on %v goroutines every %s duration", concurrency, timeBetweenRequest)
+
 	ticker := time.NewTicker(timeBetweenRequest)
 
 	for ; ; <-ticker.C {
@@ -32,7 +33,7 @@ func StartScraping(db *database.Queries, concurrency int, timeBetweenRequest tim
 			wg.Add(1)
 			go scrapeFeed(db, &wg, feed)
 		}
-		
+
 		wg.Wait()
 	}
 
@@ -40,7 +41,9 @@ func StartScraping(db *database.Queries, concurrency int, timeBetweenRequest tim
 
 func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 	defer wg.Done()
+
 	_, err := db.MarkFeedAsFetched(context.Background(), feed.ID)
+
 	if err != nil {
 		log.Println("Error marking feed as fetched:", err)
 	}
@@ -77,7 +80,6 @@ func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 		if err != nil {
 			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				continue
-
 			}
 			log.Println("Error creating post:", err)
 		}
