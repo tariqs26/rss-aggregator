@@ -20,7 +20,7 @@ In progress...
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/rss-aggregator.git
+git clone https://github.com/tariqs26/rss-aggregator.git
 cd rss-aggregator
 ```
 
@@ -90,7 +90,3 @@ go build -o rss-aggregator
 ```
 
 The server will start on the port specified in the `.env` file (default is `8080`).
-
-## Contributing
-
-If you would like to contribute to this project, please fork the repository and submit a pull request.
