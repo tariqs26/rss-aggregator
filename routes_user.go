@@ -14,7 +14,7 @@ func userRoutes() *chi.Mux {
 
 	router.Post("/", createUser)
 	router.Get("/", authMiddleware(getUser))
-	router.Delete("/{id}", authMiddleware((deleteUser)))
+	router.Delete("/", authMiddleware((deleteUser)))
 	router.Get("/posts", authMiddleware(getUserPosts))
 
 	return router
