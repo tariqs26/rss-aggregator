@@ -51,5 +51,5 @@ func deleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User
 		return
 	}
 
-	util.RespondWithJSON(w, http.StatusOK, "Feed un-followed successfully")
+	util.RespondWithJSON(w, http.StatusOK, "Feed unfollowed successfully")
 }
