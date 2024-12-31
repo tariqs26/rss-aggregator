@@ -2,6 +2,7 @@
 INSERT INTO posts (title, description, url, published_at, feed_id)
 VALUES ($1, $2, $3, $4, $5)
 RETURNING *;
+
 -- name: GetUserPosts :many
 SELECT posts.*
 FROM posts
