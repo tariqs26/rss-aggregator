@@ -12,8 +12,8 @@ import (
 func feedFollowRoutes() *chi.Mux {
 	router := chi.NewRouter()
 
-	router.Get("/feed-follows", authMiddleware(getFeedFollows))
-	router.Delete("/feed-follows/{id}", authMiddleware(deleteFeedFollow))
+	router.Get("/", authMiddleware(getFeedFollows))
+	router.Delete("/{id}", authMiddleware(deleteFeedFollow))
 
 	return router
 }
