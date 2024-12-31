@@ -8,7 +8,39 @@ A simple RSS feed aggregator that allows users to:
 
 ## API Routes
 
-In progress...
+### General
+
+- `GET /v1/ping`: health check endpoint.
+
+### Users
+
+- `POST /v1/users`: create a new user.
+  - request body:
+    ```json
+    { "name": "string" }
+    ```
+- `GET /v1/users` (requires authentication): get current user details.
+- `DELETE /v1/users` (requires authentication): delete current user.
+- `GET /v1/users/posts` (requires authentication): get posts from the feeds the current user follows.
+
+### Feeds
+
+- `POST /v1/feeds`: add a new feed.
+  - request body:
+    ```json
+    {
+      "name": "string",
+      "url": "string"
+    }
+    ```
+- `GET /v1/feeds` (requires authentication): get all feeds.
+- `DELETE /v1/feeds/{id}` (requires authentication): delete a feed by ID.
+- `POST /v1/feeds/{id}/follow` (requires authentication): follow a feed by ID.
+
+### Feed Follows
+
+- `GET /v1/feed-follows` (requires authentication): get all followed feeds.
+- `DELETE /v1/feed-follows/{id}` (requires authentication): unfollow a feed by ID.
 
 ## Setup and Installation
 
@@ -59,7 +91,7 @@ PORT=8080
 DATABASE_URL=postgres://username:password@localhost:5432/yourdbname?sslmode=disable
 ```
 
-Replace `username`, `password`, `localhost`, `5432`, and `yourdbname` with your PostgreSQL credentials and database details.
+Replace `username`, `password`, `localhost:5432`, and `yourdbname` with your PostgreSQL credentials and database details.
 
 ## Usage
 
@@ -69,7 +101,7 @@ Navigate to the directory containing the migration files and run goose to apply 
 
 ```bash
 cd sql/schema
-goose -dir migrations postgres "postgres://username:password@localhost:5432/yourdbname?sslmode=disable" up
+goose -dir . postgres "postgres://username:password@localhost:5432/yourdbname?sslmode=disable" up
 ```
 
 ### Generate SQLC Code
